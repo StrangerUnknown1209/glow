@@ -103,7 +103,7 @@
     <div class="container-fluid">
         <div class="container h-100">
             <!--heading start-->
-            <?php
+            <?php session_start();
             $row = getUsrDetails($_SESSION['id']);
             echo'<h2 class="text-left h1 wow fadeIn" data-wow-delay="1.1s">'.$row['fName'].' '.$row['lName'].'</h2>';
             ?>

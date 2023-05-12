@@ -101,6 +101,7 @@
     $database = "DCS";
     
     // Start a session
+    session_start();
     // create connection
     $conn = new mysqli($host, $username, $password, $database);
     
@@ -108,66 +109,33 @@
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    
-    $id=$_SESSION['id'];
     // get user details from database
-    $sql = "SELECT * FROM usrDetails WHERE id='$id'";
-    $result = mysqli_query($conn, $sql);
     
-    if (mysqli_num_rows($result) > 0) {
-        // output user details in a read-only format
-        $row = mysqli_fetch_assoc($result);
-        ?>
-        <div class="container">
-    <h1>User Profile</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <form action="userProfUpdate.php" method="POST">
-                <div class="form-group mb-2">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $row['uName']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" class="form-control" id="firstName" value="<?php echo $row['fName']; ?>" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" class="form-control" id="lastName" value="<?php echo $row['lName']; ?>" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="age">Age:</label>
-                    <input type="text" class="form-control" id="age" name="age" value="<?php echo $row['age']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="mobile">Mobile:</label>
-                    <input type="text" class="form-control" id="mobile" value="<?php echo $row['mob']; ?>" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>">
-                </div>
-                <div class="form-group mt-2">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+$username = $_POST['username'];
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
+$age = $_POST['age'];
+$mobile = $_POST['mobile'];
+$email = $_POST['email'];
+
+// Retrieve primary key "id" from session
+$id = $_SESSION['id'];
+
+// Prepare and execute SQL statement to update data
+$sql = "UPDATE users SET username='$username', firstName='$firstName', lastName='$lastName', age='$age', mobile='$mobile', email='$email' WHERE id='$id'";
+
+if ($conn->query($sql) === TRUE) {
+    echo '<p class="lead">Record updated successfully</p>';
+} else {
+    echo '<p class="lead">Error updating record:</p>' . $conn->error;
+}
+
+// Close database connection
+$conn->close();
+?>
 
 
-        <?php
-    } else {
-        echo "<div class='alert alert-danger' role='alert'>User not found.</div>";
-    }
-    
-    // close database connection
-    mysqli_close($conn);
-    ?>
-            <!--user profile stuff end-->
-
-            <!--user profile stuff end-->
-
+            <!--user prof update end-->
 
 
 

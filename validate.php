@@ -61,7 +61,7 @@ if ($result->num_rows == 1) {
             if ($userType == 0) {
                 // Admin user
                 echo'<p> <h3> Login Sucessful!</h3></p>';
-    echo '<script>window.open("admin.php");</script>';
+    echo '<script>window.open("adminlanding.php");</script>';
             } else {
                 // Normal user
                 echo'<p> <h3> Login Sucessful!</h3></p>';
